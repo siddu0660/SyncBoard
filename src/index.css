@@ -1,0 +1,14 @@
+@import "@flaticon/flaticon-uicons/css/all/all";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+@layer components {
+  .toggle-checkbox:checked {
+    @apply translate-x-full border-gray-700;
+  }
+  .toggle-checkbox:checked + .toggle-label {
+    @apply bg-gray-700;
+  }
+}
