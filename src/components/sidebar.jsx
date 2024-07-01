@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo-removebg-preview.png";
 import "../index.css";
@@ -14,23 +14,51 @@ import {
   HiArrowRightOnRectangle,
 } from "react-icons/hi2";
 
-function Sidebar({ isDarkMode }) {
-  const bgColor = isDarkMode ? "bg-[#3d403d]" : "bg-gray-100";
-  const textColor = isDarkMode ? "text-gray-100" : "text-gray-800";
-  const hoverBgColor = isDarkMode ? "hover:bg-gray-200" : "hover:bg-slate-600";
-  const activeBgColor = isDarkMode ? "bg-gray-300" : "bg-slate-600";
+function Sidebar({ isDarkMode, setStatus }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  function handleClick() {
+    setStatus(false);
+  }
+
+  useEffect(() => {
+    document.body.style.transition = "none";
+    document.body.offsetHeight;
+    document.body.style.transition = "";
+  }, [isDarkMode]);
+
+  const toggleSidebar = () => {
+    setIsExpanded(!isExpanded);
+  };
+
   return (
     <div
-      className={`${bgColor} ${textColor} p-4 rounded-xl m-8 w-auto flex flex-col justify-between`}
+      className={`transition-all duration-300 ease-in-out p-4 rounded-xl m-8 ${
+        isExpanded ? "w-64" : "w-20"
+      } flex flex-col justify-between overflow-hidden
+      ${
+        isDarkMode
+          ? "bg-white/[0.8] text-gray-800"
+          : "bg-[#3d403d] text-[#F5F0E8]"
+      }`}
     >
-      <div className="w-auto flex flex-col pr-12">
-        <div className="flex w-16 h-16 items-center ml-0">
+      <div className="flex flex-col">
+        <div
+          className="flex items-center cursor-pointer mb-6"
+          onClick={toggleSidebar}
+        >
           <img
-            className="bg-blend-multiply hover:rotate-[720deg] transition-transform duration-1000"
+            className="w-12 h-12 bg-blend-multiply hover:rotate-[720deg] transition-transform duration-1000"
             src={logo}
             alt="S"
           />
-          <h1 className="text-xl font-bold">Dashboard</h1>
+          <h1
+            className={`text-xl font-bold ml-2 whitespace-nowrap ${
+              isExpanded ? "opacity-100" : "opacity-0"
+            } transition-opacity duration-300`}
+          >
+            Dashboard
+          </h1>
         </div>
         <nav className="space-y-2">
           {[
@@ -49,29 +77,53 @@ function Sidebar({ isDarkMode }) {
               key={to}
               to={to}
               className={({ isActive }) =>
-                `flex items-center p-2 rounded ${hoverBgColor} ${
-                  isActive ? activeBgColor : ""
+                `flex items-center py-2 px-2 rounded transition-colors duration-300 ${
+                  isActive
+                    ? isDarkMode
+                      ? "bg-gray-400"
+                      : "bg-[#D2A76A]/[0.8]"
+                    : isDarkMode
+                    ? "hover:bg-gray-400"
+                    : "hover:bg-[#D2A76A]/[0.8]"
                 }`
               }
             >
-              <Icon className="mr-2 relative" size={28} />
-              <span className="text-lg">{text}</span>
+              <Icon className="w-7 h-7 flex-shrink-0" />
+              <span
+                className={`ml-2 whitespace-nowrap ${
+                  isExpanded ? "opacity-100" : "opacity-0"
+                } transition-opacity duration-300`}
+              >
+                {text}
+              </span>
             </NavLink>
           ))}
         </nav>
       </div>
       <div>
-        <div className={`items-center p-2 rounded ${hoverBgColor}`}>
+        <div
+          className={`items-center p-2 rounded mb-2 transition-colors duration-300 ${
+            isDarkMode ? "hover:bg-gray-400" : "hover:bg-[#D2A76A]/[0.8]"
+          }`}
+        >
           <NavLink
             to="/profile"
             className={({ isActive }) =>
-              `flex items-center p-2 rounded ${hoverBgColor} ${
-                isActive ? activeBgColor : ""
+              `flex items-center rounded ${
+                isActive
+                  ? isDarkMode
+                    ? "bg-gray-400"
+                    : "bg-[#D2A76A]/[0.8]"
+                  : ""
               }`
             }
           >
-            <HiUser className="mr-2" size={28} />
-            <div className="text-left">
+            <HiUser className="w-7 h-7 flex-shrink-0" />
+            <div
+              className={`ml-2 whitespace-nowrap ${
+                isExpanded ? "opacity-100" : "opacity-0"
+              } transition-opacity duration-300`}
+            >
               <p>Bob</p>
             </div>
           </NavLink>
@@ -79,19 +131,37 @@ function Sidebar({ isDarkMode }) {
         <nav className="space-y-2">
           {[
             { to: "/settings", icon: HiCog6Tooth, text: "Settings" },
-            { to: "/auth", icon: HiArrowRightOnRectangle, text: "Sign out" },
-          ].map(({ to, icon: Icon, text }) => (
+            {
+              to: "/auth",
+              icon: HiArrowRightOnRectangle,
+              text: "Sign out",
+              onClick: () => setStatus(false),
+            },
+          ].map(({ to, icon: Icon, text, onClick }) => (
             <NavLink
               key={to}
               to={to}
+              onClick={onClick}
               className={({ isActive }) =>
-                `flex items-center p-2 rounded ${hoverBgColor} ${
-                  isActive ? activeBgColor : ""
+                `flex items-center p-2 rounded transition-colors duration-300 ${
+                  isActive
+                    ? isDarkMode
+                      ? "bg-gray-400"
+                      : "bg-[#D2A76A]/[0.8]"
+                    : isDarkMode
+                    ? "hover:bg-gray-400"
+                    : "hover:bg-[#D2A76A]/[0.8]"
                 }`
               }
             >
-              <Icon className="mr-2" size={28} />
-              <span>{text}</span>
+              <Icon className="w-7 h-7 flex-shrink-0" />
+              <span
+                className={`ml-2 whitespace-nowrap ${
+                  isExpanded ? "opacity-100" : "opacity-0"
+                } transition-opacity duration-300`}
+              >
+                {text}
+              </span>
             </NavLink>
           ))}
         </nav>

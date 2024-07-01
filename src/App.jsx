@@ -26,8 +26,8 @@ function App() {
     <div
       className={`flex h-screen ${
         isDarkMode
-          ? "bg-[#ffefff] text-gray-800"
-          : "bg-slate-600 text-white"
+          ? "bg-[url('./assets/Dark_BG.png')] text-[#ffffff]"
+          : "bg-[url('./assets/Light_BG.png')] text-gray-800"
       }`}
     >
       <Sidebar isDarkMode={isDarkMode} />
