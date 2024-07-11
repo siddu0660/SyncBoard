@@ -14,7 +14,7 @@ import {
   HiArrowRightOnRectangle,
 } from "react-icons/hi2";
 
-function Sidebar({ isDarkMode, setStatus }) {
+function Sidebar({ isDarkMode , setStatus }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   function handleClick() {
@@ -31,6 +31,10 @@ function Sidebar({ isDarkMode, setStatus }) {
     setIsExpanded(!isExpanded);
   };
 
+  function handleLogout() {
+    setStatus(false);
+    console.log("Logout");
+  }
   return (
     <div
       className={`transition-all duration-300 ease-in-out p-4 rounded-xl m-8 ${
@@ -131,13 +135,8 @@ function Sidebar({ isDarkMode, setStatus }) {
         <nav className="space-y-2">
           {[
             { to: "/settings", icon: HiCog6Tooth, text: "Settings" },
-            {
-              to: "/auth",
-              icon: HiArrowRightOnRectangle,
-              text: "Sign out",
-              onClick: () => setStatus(false),
-            },
-          ].map(({ to, icon: Icon, text, onClick }) => (
+            { to: "/auth", icon: HiArrowRightOnRectangle, text: "Sign out", onClick: handleLogout }
+          ].map(({ to, icon: Icon, text , onClick}) => (
             <NavLink
               key={to}
               to={to}

@@ -16,6 +16,9 @@ export default {
         "custom-dark-text": "#f7fafc",
         "custom-light-text": "#2d3748",
       },
+      animation: {
+        "spin-slow": "spin 20s linear infinite",
+      },
     },
   },
   variants: {

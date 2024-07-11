@@ -1,9 +1,9 @@
-function Whiteboard({ isDarkMode }) {
-  const textColor = isDarkMode ? "text-gray-800" : "text-gray-100";
+import Canvas from "../components/canvas";
+
+const Whiteboard = ({isDarkMode}) => {
   return (
-    <h1 className={`text-center text-[#ffffff] mx-auto ${textColor}`}>
-      Whiteboard Work under Progress.......
-    </h1>
-  );
-}
+    <Canvas isDarkMode={isDarkMode}/>
+  )
+};
+
 export default Whiteboard;
