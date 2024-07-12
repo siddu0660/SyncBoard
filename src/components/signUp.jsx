@@ -18,7 +18,7 @@ function SignUp({ isDarkMode, navigate , setShowSignIn }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await createUserWithEmailAndPassword(
+      const user = await createUserWithEmailAndPassword(
         auth,
         email,
         password
@@ -33,9 +33,9 @@ function SignUp({ isDarkMode, navigate , setShowSignIn }) {
         });
       });
 
-      const user = auth.currentUser;
+      const currentUser = auth.currentUser;
 
-      if (user) {
+      if (currentUser) {
         await set(ref(database, "users/" + user.uid), {
           name: name,
           username: username,
