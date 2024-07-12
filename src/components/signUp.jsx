@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import {auth} from "./firebase"
-import {createUserWithEmailAndPassword} from "firebase/auth"
+import {auth , database} from "./firebase"
+import {createUserWithEmailAndPassword , onAuthStateChanged} from "firebase/auth"
+import { ref, set } from "firebase/database";
 
-function SignUp({ isDarkMode, setStatus, navigate , setShowSignIn }) {
+function SignUp({ isDarkMode, navigate , setShowSignIn }) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -17,10 +18,35 @@ function SignUp({ isDarkMode, setStatus, navigate , setShowSignIn }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await new Promise((resolve) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          if (user) {
+            unsubscribe();
+            resolve(user);
+          }
+        });
+      });
+
       const user = auth.currentUser;
-      alert("User created successfully");
-      setShowSignIn(true);
+
+      if (user) {
+        await set(ref(database, "users/" + user.uid), {
+          name: name,
+          username: username,
+          email: email,
+          gender: gender,
+        });
+        alert("User created successfully");
+        setShowSignIn(true);
+      } else {
+        throw new Error("User not found after authentication");
+      }
     } catch (error) {
       alert(error.message);
     }

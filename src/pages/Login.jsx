@@ -58,7 +58,6 @@ function Login({ setStatus }) {
         <SignUp
           isDarkMode={isDarkMode}
           setShowSignIn={setShowSignIn}
-          setStatus={setStatus}
           navigate={navigate}
         />
       )}
