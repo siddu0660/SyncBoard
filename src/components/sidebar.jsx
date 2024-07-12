@@ -105,35 +105,9 @@ function Sidebar({ isDarkMode , setStatus }) {
         </nav>
       </div>
       <div>
-        <div
-          className={`items-center p-2 rounded mb-2 transition-colors duration-300 ${
-            isDarkMode ? "hover:bg-gray-400" : "hover:bg-[#D2A76A]/[0.8]"
-          }`}
-        >
-          <NavLink
-            to="/profile"
-            className={({ isActive }) =>
-              `flex items-center rounded ${
-                isActive
-                  ? isDarkMode
-                    ? "bg-gray-400"
-                    : "bg-[#D2A76A]/[0.8]"
-                  : ""
-              }`
-            }
-          >
-            <HiUser className="w-7 h-7 flex-shrink-0" />
-            <div
-              className={`ml-2 whitespace-nowrap ${
-                isExpanded ? "opacity-100" : "opacity-0"
-              } transition-opacity duration-300`}
-            >
-              <p>Bob</p>
-            </div>
-          </NavLink>
-        </div>
         <nav className="space-y-2">
           {[
+            { to: "/profile", icon: HiUser, text: "Profile" },
             { to: "/settings", icon: HiCog6Tooth, text: "Settings" },
             { to: "/auth", icon: HiArrowRightOnRectangle, text: "Sign out", onClick: handleLogout }
           ].map(({ to, icon: Icon, text , onClick}) => (
