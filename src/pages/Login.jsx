@@ -74,93 +74,77 @@
           alt="Logo"
           className="w-96 h-96 mx-auto bg-blend-multiply"
         />
-        <div className="bg-white rounded-3xl flex flex-row">
-          <form
-            onSubmit={handleSubmit}
-            id="signIn"
-            className="flex flex-col bg-rose-300 space-y-4 p-12 rounded-l-3xl rounded-r-[100px]"
-          >
-            <label className="relative flex-1 group">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className={`w-full px-4 pt-6 pb-2 outline-none border rounded-lg text-base
-              transition-colors duration-300 ease-in-out
-              ${
-                !isDarkMode
-                  ? "bg-[#333] text-white border-[rgba(105,105,105,0.397)]"
-                  : "bg-white text-black border-gray-300"
-              }
-              focus:border-[#00bfff] focus:border-2 focus:ring-2`}
-                placeholder=" "
-              />
-              <span
-                className={`absolute left-4 top-1 transition-colors duration-300 ease-in-out
-              ${
-                !isDarkMode ? "text-[rgba(255,255,255,0.5)]" : "text-gray-500"
-              }`}
-              >
-                Email
-              </span>
-            </label>
-            <label className="relative flex-1">
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className={`w-full px-4 pt-6 pb-2 outline-none border rounded-lg text-base
-              transition-colors duration-300 ease-in-out
-              ${
-                !isDarkMode
-                  ? "bg-[#333] text-white border-[rgba(105,105,105,0.397)]"
-                  : "bg-white text-black border-gray-300"
-              }
-              focus:border-[#00bfff] focus:border-2 focus:ring-2`}
-                placeholder=" "
-              />
-              <span
-                className={`absolute left-4 top-1 transition-colors duration-300 ease-in-out
-              ${
-                !isDarkMode ? "text-[rgba(255,255,255,0.5)]" : "text-gray-500"
-              }`}
-              >
-                Password
-              </span>
-              <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className={`absolute right-4 top-1/2 transform -translate-y-1/2
-              transition-colors duration-300 ease-in-out
-              ${!isDarkMode ? "text-[#00bfff]" : "text-gray-500"}`}
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </label>
+        <form
+          onSubmit={handleSubmit}
+          id="signIn"
+          className="flex flex-col space-y-4 "
+        >
+          <label className="relative flex-1 group">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className={`w-full px-4 pt-6 pb-2 outline-none border rounded-lg text-base
+            transition-colors duration-300 ease-in-out
+            ${
+              !isDarkMode
+                ? "bg-[#333] text-white border-[rgba(105,105,105,0.397)]"
+                : "bg-white text-black border-gray-300"
+            }
+            focus:border-[#00bfff] focus:border-2 focus:ring-2`}
+              placeholder=" "
+            />
+            <span
+              className={`absolute left-4 top-1 transition-colors duration-300 ease-in-out
+            ${
+              !isDarkMode ? "text-[rgba(255,255,255,0.5)]" : "text-gray-500"
+            }`}
+            >
+              Email
+            </span>
+          </label>
+          <label className="relative flex-1">
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className={`w-full px-4 pt-6 pb-2 outline-none border rounded-lg text-base
+            transition-colors duration-300 ease-in-out
+            ${
+              !isDarkMode
+                ? "bg-[#333] text-white border-[rgba(105,105,105,0.397)]"
+                : "bg-white text-black border-gray-300"
+            }
+            focus:border-[#00bfff] focus:border-2 focus:ring-2`}
+              placeholder=" "
+            />
+            <span
+              className={`absolute left-4 top-1 transition-colors duration-300 ease-in-out
+            ${
+              !isDarkMode ? "text-[rgba(255,255,255,0.5)]" : "text-gray-500"
+            }`}
+            >
+              Password
+            </span>
             <button
-              type="submit"
-              className="bg-[#00bfff] text-white py-2 px-4 rounded-lg transition-colors duration-300 ease-in-out hover:bg-[#0095cc]"
+              type="button"
+              onClick={togglePasswordVisibility}
+              className={`absolute right-4 top-1/2 transform -translate-y-1/2
+            transition-colors duration-300 ease-in-out
+            ${!isDarkMode ? "text-[#00bfff]" : "text-gray-500"}`}
             >
-              Login
+              {showPassword ? "Hide" : "Show"}
             </button>
-          </form>
-          <div className="my-auto p-2 rounded-l-[100px] shadows">
-            <p
-              className={`text-center
-              transition-colors duration-300 ease-in-out
-              ${
-                !isDarkMode
-                  ? "text-[rgba(255,255,255,0.5)]"
-                  : "text-gray-500"
-              }`}
-            >
-              Don't have an account?{" "}
-            </p>
-          </div>
-        </div>
-
+          </label>
+          <button
+            type="submit"
+            className="bg-[#00bfff] text-white py-2 px-4 rounded-lg transition-colors duration-300 ease-in-out hover:bg-[#0095cc]"
+          >
+            Login
+          </button>
+        </form>
         <div className="hr w-80 mt-4">
           <img
             src={`${isDarkMode ? LineWhite : Line}`}
