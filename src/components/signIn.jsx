@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import { auth, provider } from "../components/firebase";
+import { auth, provider , database } from "../components/firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { ref, get , set } from "firebase/database";
 import Line from "../assets/line.png";
 import LineWhite from "../assets/Line_White.png";
+import { useDispatch} from "react-redux";
+import { setStatus, setUid } from "../store/authSlice";
 
-function SignIn({ isDarkMode, setStatus, navigate, setShowSignIn }) {
+function SignIn({ isDarkMode, navigate, setShowSignIn }) {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -18,11 +22,16 @@ function SignIn({ isDarkMode, setStatus, navigate, setShowSignIn }) {
     e.preventDefault();
     setError(null);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      localStorage.setItem("email", email);
-      setStatus(true);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      dispatch(setUid(userCredential.user.uid));
+      dispatch(setStatus(true));
       navigate("/");
     } catch (error) {
+      console.log(error);
       setError(error.message);
     }
   };
@@ -30,9 +39,25 @@ function SignIn({ isDarkMode, setStatus, navigate, setShowSignIn }) {
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      setEmail(result.user.email);
-      localStorage.setItem("email", result.user.email);
-      setStatus(true);
+      const user = result.user;
+
+      const userRef = ref(database, "users/" + user.uid);
+      const snapshot = await get(userRef);
+
+      if (!snapshot.exists()) {
+        const newUser = {
+          name: user.displayName || "",
+          username: user.email.split("@")[0],
+          email: user.email,
+          gender: "", 
+          image: user.photoURL || "",
+        };
+
+        await set(userRef, newUser);
+      }
+
+      dispatch(setUid(user.uid));
+      dispatch(setStatus(true));
       navigate("/");
     } catch (error) {
       setError(error.message);

@@ -6,7 +6,7 @@ import LightLogo from "../assets/Light_Logo-removebg-preview.png";
 import SignIn from "../components/signIn";
 import SignUp from "../components/signUp";
 
-function Login({ setStatus }) {
+function Login({ setStatus}) {
   const [showSignIn, setShowSignIn] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const dimension = showSignIn ? "w-96 h-96" : "w-80 h-80";
@@ -58,6 +58,7 @@ function Login({ setStatus }) {
         <SignUp
           isDarkMode={isDarkMode}
           setShowSignIn={setShowSignIn}
+          setStatus={setStatus}
           navigate={navigate}
         />
       )}

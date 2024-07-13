@@ -24,6 +24,7 @@ import "./index.css";
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const uid = useSelector((state) => state.auth.uid);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const status = useSelector((state) => state.auth.status);
 
@@ -85,7 +86,7 @@ function App() {
                 />
                 <Route
                   path="/auth"
-                  element={<Login isDarkMode={isDarkMode} />}
+                  element={<Login isDarkMode={isDarkMode}/>}
                 />
                 <Route path="*" element={<Error isDarkMode={isDarkMode} />} />
               </Routes>
