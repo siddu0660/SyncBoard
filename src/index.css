@@ -47,3 +47,16 @@
   background-color: #3d403d;
   color: whitesmoke;
 }
+
+.form{
+  width: auto;
+  transition: 0.1s ease;
+  text-align: center;
+  align-items: center;
+  z-index: 1111;
+}
+
+.form:hover,
+.form:focus{
+  border: 4px solid #ff7300;
+}
