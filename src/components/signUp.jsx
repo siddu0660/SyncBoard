@@ -36,7 +36,7 @@ function SignUp({ isDarkMode, navigate , setShowSignIn }) {
       const currentUser = auth.currentUser;
 
       if (currentUser) {
-        await set(ref(database, "users/" + user.uid), {
+        await set(ref(database, "users/" + currentUser.uid), {
           name: name,
           username: username,
           email: email,
