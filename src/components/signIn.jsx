@@ -5,7 +5,7 @@ import { ref, get , set } from "firebase/database";
 import Line from "../assets/line.png";
 import LineWhite from "../assets/Line_White.png";
 import { useDispatch} from "react-redux";
-import { setStatus, setUid } from "../store/authSlice";
+import { fetchUserProfile, setStatus, setUid } from "../store/authSlice";
 
 function SignIn({ isDarkMode, navigate, setShowSignIn }) {
   const dispatch = useDispatch();
@@ -28,6 +28,7 @@ function SignIn({ isDarkMode, navigate, setShowSignIn }) {
         password
       );
       dispatch(setUid(userCredential.user.uid));
+      dispatch(fetchUserProfile(userCredential.user.uid));
       dispatch(setStatus(true));
       navigate("/");
     } catch (error) {
@@ -54,9 +55,11 @@ function SignIn({ isDarkMode, navigate, setShowSignIn }) {
         };
 
         await set(userRef, newUser);
+        dispatch(fetchUserProfile(user.uid));
       }
-
+      
       dispatch(setUid(user.uid));
+      dispatch(fetchUserProfile(user.uid));
       dispatch(setStatus(true));
       navigate("/");
     } catch (error) {

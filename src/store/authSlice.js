@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { database } from "../components/firebase";
-import { ref, set } from "firebase/database";
+import { ref, set , get} from "firebase/database";
+import { database} from "../components/firebase";
 
 const authSlice = createSlice({
   name: "auth",
@@ -11,7 +11,7 @@ const authSlice = createSlice({
     username: "",
     email: "",
     gender: "",
-    image: "",
+    image: "1",
   },
   reducers: {
     setStatus: (state, action) => {
@@ -35,23 +35,46 @@ const authSlice = createSlice({
     setImage: (state, action) => {
       state.image = action.payload;
     },
+    setUserProfile: (state, action) => {
+      const { name, username, email, gender, image } = action.payload;
+      state.name = name;
+      state.username = username;
+      state.email = email;
+      state.gender = gender;
+      state.image = image;
+    },
   },
 });
 
-export const updateUserProfile =
-  (userData, uid) => async (dispatch, getState) => {
-    try {
-      const userRef = ref(database, "users/", uid);
-
-      await set(userRef, userData);
-      dispatch(setName(userData.name));
-      dispatch(setUsername(userData.username));
-      dispatch(setEmail(userData.email));
-      dispatch(setGender(userData.gender));
-    } catch (error) {
-      console.error("Error updating user profile:", error);
+export const fetchUserProfile = (uid) => async (dispatch) => {
+  try {
+    const userRef = ref(database, "users/" + uid );
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      dispatch(setUserProfile(userData));
+    } else {
+      console.log("No user data available.");
     }
-  };
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+  }
+};
+
+export const updateUserProfile = (userData, uid) => async (dispatch) => {
+  try {
+    const userRef = ref(database, "users/" + uid);
+
+    await set(userRef, userData);
+    dispatch(setImage(userData.image));
+    dispatch(setName(userData.name));
+    dispatch(setUsername(userData.username));
+    dispatch(setEmail(userData.email));
+    dispatch(setGender(userData.gender));
+  } catch (error) {
+    console.error("Error updating user profile:", error);
+  }
+};
 
 export const {
   setStatus,
@@ -61,5 +84,6 @@ export const {
   setEmail,
   setGender,
   setImage,
+  setUserProfile,
 } = authSlice.actions;
 export default authSlice.reducer;
