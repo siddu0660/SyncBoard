@@ -9,7 +9,7 @@ const uri = process.env.MONGODB_URI;
 const port = process.env.API_PORT;
 
 const corsOptions = {
-  origin: '*',
+  origin: ["https://syncboardfrontend-sathwik-kodamarthis-projects.vercel.app"],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -17,7 +17,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
 app.use(express.json());
 
 let db;
