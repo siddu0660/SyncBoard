@@ -9,7 +9,7 @@ const uri = process.env.MONGODB_URI;
 const port = process.env.API_PORT;
 
 const corsOptions = {
-  origin: 'https://syncboardfrontend-lali5adx9-sathwik-kodamarthis-projects.vercel.app',
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
