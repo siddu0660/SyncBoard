@@ -1,0 +1,71 @@
+@import "@flaticon/flaticon-uicons/css/all/all";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+@layer components {
+  .toggle-checkbox:checked {
+    @apply translate-x-full border-gray-700;
+  }
+  .toggle-checkbox:checked + .toggle-label {
+    @apply bg-gray-700;
+  }
+}
+
+.custom-calendar .react-calendar__tile {
+  background-color: #3d403d;
+}
+
+.custom-calendar .react-calendar__tile:enabled:hover{
+  background-color: #000011;
+}
+
+.custom-calendar .react-calendar__tile--active {
+  background-color: #006edc;
+  color: white;
+}
+
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+  color: #ffffff;
+  background-color: #3d403d;
+  font-weight: bold;
+}
+
+.custom-calendar .react-calendar__navigation__label {
+  color: #0a0b0d;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.custom-calendar .react-calendar__navigation__arrow {
+  color: #000000;
+}
+
+.custom-calendar .react-calendar__navigation button:enabled:hover,
+.custom-calendar .react-calendar__navigation button:enabled:focus {
+  background-color: #3d403d;
+  color: whitesmoke;
+}
+
+.form{
+  width: full;
+  transition: 0.1s ease;
+  text-align: center;
+  align-items: center;
+  z-index: 1111;
+}
+
+.form:hover,
+.form:focus{
+  border: 4px solid #ff7300;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
