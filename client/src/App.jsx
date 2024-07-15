@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleTheme } from "./store/themeSlice";
+import { toggleTheme , setIntroDone } from "./store/themeSlice";
 import { setStatus } from "./store/authSlice";
 import Sidebar from "./components/sidebar";
 import Content from "./components/content";
@@ -18,6 +18,7 @@ import Profile from "./pages/Profile";
 import Rooms from "./pages/Rooms";
 import Settings from "./pages/Settings";
 import Whiteboard from "./pages/Whiteboard";
+import AnimatedText from "./components/animatedText";
 import { FaSun, FaMoon } from "react-icons/fa";
 import "./index.css";
 
@@ -25,6 +26,7 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const uid = useSelector((state) => state.auth.uid);
+  const introDone = useSelector((state) => state.theme.isIntroDone);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const status = useSelector((state) => state.auth.status);
 
@@ -36,9 +38,14 @@ function App() {
     dispatch(setStatus(newStatus));
   };
 
+  const handleTextComplete = async () => {
+    dispatch(setIntroDone());
+  };
+
   return (
     <div className="select-none">
-      {!status && <Login setStatus={handleSetStatus} />}
+      {!introDone && <AnimatedText onComplete={handleTextComplete} client:load />}
+      {!status && introDone && <Login setStatus={handleSetStatus} />}
       {status && (
         <div
           className={`flex h-screen ${

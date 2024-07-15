@@ -68,7 +68,7 @@ function SignIn({ isDarkMode, navigate, setShowSignIn }) {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       <form
         onSubmit={handleSubmit}
         id="signIn"
@@ -145,7 +145,7 @@ function SignIn({ isDarkMode, navigate, setShowSignIn }) {
       >
         Don't have an account? Sign Up
       </button>
-      <div className="hr w-80 mt-4">
+      <div className="hr w-full mt-4">
         <img
           src={`${isDarkMode ? LineWhite : Line}`}
           alt="Line"
@@ -186,7 +186,7 @@ function SignIn({ isDarkMode, navigate, setShowSignIn }) {
         </svg>
         Sign in with Google
       </button>
-    </>
+    </div>
   );
 }
 
