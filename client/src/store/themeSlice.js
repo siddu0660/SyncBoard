@@ -5,6 +5,7 @@ const themeSlice = createSlice({
     initialState: {
         isDarkMode: false,
         isIntroDone: false,
+        isLoading:false,
     },
     reducers: {
         toggleTheme: (state) => {
@@ -13,8 +14,11 @@ const themeSlice = createSlice({
         setIntroDone: (state) => {
         state.isIntroDone = true;
         },
+        setLoader: (state) => {
+            state.isLoading = !(state.isLoading);
+        },
     },
 });
 
-export const { toggleTheme , setIntroDone} = themeSlice.actions;
+export const { toggleTheme , setIntroDone , setLoader } = themeSlice.actions;
 export default themeSlice.reducer;

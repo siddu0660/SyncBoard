@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState , useRef , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import ModeToggle from "../components/themeButton";
@@ -6,6 +6,7 @@ import DarkLogo from "../assets/Dark_logo-removebg-preview.png";
 import LightLogo from "../assets/Light_Logo-removebg-preview.png";
 import SignIn from "../components/signIn";
 import SignUp from "../components/signUp";
+import gsap from "gsap";
 
 function Login({ setStatus }) {
   const [showSignIn, setShowSignIn] = useState(true);
@@ -14,10 +15,11 @@ function Login({ setStatus }) {
   const [showLogo, setShowLogo] = useState(false);
   const [showLoginForm, setShowLoginForm] = useState(false);
   const dimension = showSignIn ? "w-96 h-96" : "w-80 h-80";
+  const overlayRef = useRef(null);
   const navigate = useNavigate();
   const controls = useAnimation();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const isDark = document.body.classList.contains("dark");
     setIsDarkMode(isDark);
 
@@ -36,20 +38,47 @@ function Login({ setStatus }) {
     setShowSignIn(!showSignIn);
   };
 
+  useEffect(() => {
+    const overlay = document.createElement("div");
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "black";
+    overlay.style.opacity = "0";
+    overlay.style.pointerEvents = "none";
+    overlay.style.zIndex = "9999";
+    document.body.appendChild(overlay);
+    overlayRef.current = overlay;
+    return () => {
+      document.body.removeChild(overlay);
+    };
+  }, []);
+  
   const toggleDarkMode = () => {
-    if (isDarkMode) {
-      document.body.classList.add("transition-delay");
-      document.body.classList.remove("dark");
-      document.body.classList.remove("transition-delay");
-      setIsDarkMode(false);
-    } else {
-      setIsDarkMode(true);
-      document.body.classList.add("dark");
-    }
+    gsap.to(overlayRef.current, {
+      opacity: 1,
+      duration: 0.5,
+      onComplete: () => {
+        if (isDarkMode) {
+          document.body.classList.remove("dark");
+          setIsDarkMode(false);
+        } else {
+          document.body.classList.add("dark");
+          setIsDarkMode(true);
+        }
+
+        gsap.to(overlayRef.current, {
+          opacity: 0,
+          duration: 0.5,
+        });
+      },
+    });
   };
 
   return (
-    <div className="relative overflow-hidden w-screen h-screen">
+    <div className="relative overflow-hidden w-screen h-screen bg-gradient-to-r from-black via-gray-950 to-black">
       {showBackground && (
         <motion.div
           className={`absolute inset-0 ${
@@ -63,7 +92,7 @@ function Login({ setStatus }) {
         />
       )}
       <motion.div
-        className="absolute top-0 left-0 w-4 h-4 bg-yellow-400 rounded-full"
+        className="absolute top-0 left-0 w-0 h-0 bg-amber-600 rounded-full"
         initial={{ x: "-50%", y: "-50%" }}
         animate={controls}
         transition={{ duration: 1 }}

@@ -21,6 +21,7 @@ import Whiteboard from "./pages/Whiteboard";
 import AnimatedText from "./components/animatedText";
 import { FaSun, FaMoon } from "react-icons/fa";
 import "./index.css";
+import AnimatedAuth from "./components/animatedAuth";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
   const uid = useSelector((state) => state.auth.uid);
   const introDone = useSelector((state) => state.theme.isIntroDone);
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const loading = useSelector((state) => state.theme.isLoading);
   const status = useSelector((state) => state.auth.status);
 
   const handleToggleTheme = () => {
@@ -45,7 +47,8 @@ function App() {
   return (
     <div className="select-none">
       {!introDone && <AnimatedText onComplete={handleTextComplete} client:load />}
-      {!status && introDone && <Login setStatus={handleSetStatus} />}
+      {!loading && introDone && <Login setStatus={handleSetStatus} />}
+      {loading && !status && <AnimatedAuth/> }
       {status && (
         <div
           className={`flex h-screen ${
@@ -58,7 +61,10 @@ function App() {
           <Content isDarkMode={isDarkMode}>
             <AnimatePresence mode="wait">
               <Routes location={location} key={location.key}>
-                <Route path="/" element={<Home isDarkMode={isDarkMode} />} />
+                <Route
+                  path="/home" 
+                  element={<Home isDarkMode={isDarkMode} />} 
+                />
                 <Route
                   path="/chat"
                   element={<Chat isDarkMode={isDarkMode} />}
@@ -92,7 +98,7 @@ function App() {
                   element={<Settings isDarkMode={isDarkMode} />}
                 />
                 <Route
-                  path="/auth"
+                  path="/"
                   element={<Login isDarkMode={isDarkMode}/>}
                 />
                 <Route path="*" element={<Error isDarkMode={isDarkMode} />} />

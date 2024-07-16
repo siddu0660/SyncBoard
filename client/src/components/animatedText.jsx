@@ -1,20 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
-import Lottie from "lottie-react";
-import ripple from "../assets/ripple.json";
-
-const LottieBackground = () => {
-  return (
-        <div className="absolute inset-0 z-0">
-        <Lottie
-            animationData={ripple}
-            loop={true}
-            autoplay={true}
-            style={{ width: "50%", height: "80%", transform: "translateX(700px) translateY(100px)"}}
-        />
-        </div>
-  );
-};
 
 const AnimatedText = ({ onComplete }) => {
     const [text, setText] = useState("");
@@ -50,6 +35,11 @@ const AnimatedText = ({ onComplete }) => {
         }
 
         await new Promise((resolve) => setTimeout(resolve, 500)); 
+        const finalText = initialText + syncText;
+        for (let i = 0; i < finalText.length; i++) {
+            setText((prevText) => prevText.slice(0, -1));
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        }
 
         controls.start({ opacity: 0 });
         onComplete();
@@ -64,6 +54,9 @@ const AnimatedText = ({ onComplete }) => {
             animate={controls}
             transition={{ duration: 0.5 }}
             className="text-3xl font-bold text-white text-center"
+            style={{
+                    textShadow: "5px 5px 5px rgba(255, 255, 255, 0.5)",
+                }}
         >
             {text}
             <motion.span
@@ -73,7 +66,6 @@ const AnimatedText = ({ onComplete }) => {
             |
             </motion.span>
         </motion.h1>
-        <LottieBackground />
         </div>
     );
 };

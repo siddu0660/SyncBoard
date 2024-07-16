@@ -4,10 +4,11 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { ref, get , set } from "firebase/database";
 import Line from "../assets/line.png";
 import LineWhite from "../assets/Line_White.png";
-import { useDispatch} from "react-redux";
-import { fetchUserProfile, setStatus, setUid } from "../store/authSlice";
+import { useDispatch } from "react-redux";
+import { fetchUserProfile , setUid } from "../store/authSlice";
+import { setLoader } from "../store/themeSlice"
 
-function SignIn({ isDarkMode, navigate, setShowSignIn }) {
+function SignIn({ isDarkMode, setShowSignIn }) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +30,7 @@ function SignIn({ isDarkMode, navigate, setShowSignIn }) {
       );
       dispatch(setUid(userCredential.user.uid));
       dispatch(fetchUserProfile(userCredential.user.uid));
-      dispatch(setStatus(true));
-      navigate("/");
+      dispatch(setLoader(true));
     } catch (error) {
       console.log(error);
       setError(error.message);
@@ -50,18 +50,17 @@ function SignIn({ isDarkMode, navigate, setShowSignIn }) {
           name: user.displayName || "",
           username: user.email.split("@")[0],
           email: user.email,
-          gender: "", 
+          gender: "",
           image: user.photoURL || "",
         };
 
         await set(userRef, newUser);
         dispatch(fetchUserProfile(user.uid));
       }
-      
+
       dispatch(setUid(user.uid));
       dispatch(fetchUserProfile(user.uid));
-      dispatch(setStatus(true));
-      navigate("/");
+      dispatch(setLoader(true));
     } catch (error) {
       setError(error.message);
     }

@@ -13,13 +13,13 @@ import {
   HiCog6Tooth,
   HiArrowRightOnRectangle,
 } from "react-icons/hi2";
+import { useDispatch } from "react-redux";
+import { setLoader } from "../store/themeSlice";
+import { setStatus } from "../store/authSlice";
 
-function Sidebar({ isDarkMode , setStatus }) {
+function Sidebar({ isDarkMode }) {
+  const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(false);
-
-  function handleClick() {
-    setStatus(false);
-  }
 
   useEffect(() => {
     document.body.style.transition = "none";
@@ -32,8 +32,8 @@ function Sidebar({ isDarkMode , setStatus }) {
   };
 
   function handleLogout() {
-    setStatus(false);
-    console.log("Logout");
+    dispatch(setLoader(false));
+    dispatch(setStatus(false));
   }
   return (
     <div
@@ -66,7 +66,7 @@ function Sidebar({ isDarkMode , setStatus }) {
         </div>
         <nav className="space-y-2">
           {[
-            { to: "/", icon: HiHome, text: "Home" },
+            { to: "/home", icon: HiHome, text: "Home" },
             { to: "/chat", icon: HiChatBubbleLeftRight, text: "Chat" },
             { to: "/whiteboard", icon: HiSquares2X2, text: "Whiteboard" },
             {
@@ -109,7 +109,7 @@ function Sidebar({ isDarkMode , setStatus }) {
           {[
             { to: "/profile", icon: HiUser, text: "Profile" },
             { to: "/settings", icon: HiCog6Tooth, text: "Settings" },
-            { to: "/auth", icon: HiArrowRightOnRectangle, text: "Sign out", onClick: handleLogout }
+            { to: "/", icon: HiArrowRightOnRectangle, text: "Sign out", onClick: handleLogout }
           ].map(({ to, icon: Icon, text , onClick}) => (
             <NavLink
               key={to}
