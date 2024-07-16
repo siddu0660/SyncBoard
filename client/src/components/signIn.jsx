@@ -30,7 +30,7 @@ function SignIn({ isDarkMode, setShowSignIn }) {
       );
       dispatch(setUid(userCredential.user.uid));
       dispatch(fetchUserProfile(userCredential.user.uid));
-      dispatch(setLoader(true));
+      dispatch(setLoader());
     } catch (error) {
       console.log(error);
       setError(error.message);
@@ -60,7 +60,7 @@ function SignIn({ isDarkMode, setShowSignIn }) {
 
       dispatch(setUid(user.uid));
       dispatch(fetchUserProfile(user.uid));
-      dispatch(setLoader(true));
+      dispatch(setLoader());
     } catch (error) {
       setError(error.message);
     }

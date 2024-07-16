@@ -34,7 +34,7 @@ const AnimatedAuth = () => {
 
     setTimeout( () => {
         dispatch(setStatus(true));
-        dispatch(setLoader(false));
+        dispatch(setLoader());
         navigate("/home")
     },10000)
 

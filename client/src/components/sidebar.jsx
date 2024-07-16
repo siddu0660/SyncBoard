@@ -32,7 +32,7 @@ function Sidebar({ isDarkMode }) {
   };
 
   function handleLogout() {
-    dispatch(setLoader(false));
+    dispatch(setLoader());
     dispatch(setStatus(false));
   }
   return (

@@ -43,6 +43,15 @@ const authSlice = createSlice({
       state.gender = gender;
       state.image = image;
     },
+    setInitialAuth: (state) => {
+      state.status = false;
+      state.uid = "";
+      state.name = "";
+      state.username = "";
+      state.email = "";
+      state.gender = "";
+      state.image = "1";
+    },
   },
 });
 
@@ -95,5 +104,6 @@ export const {
   setGender,
   setImage,
   setUserProfile,
+  setInitialAuth,
 } = authSlice.actions;
 export default authSlice.reducer;

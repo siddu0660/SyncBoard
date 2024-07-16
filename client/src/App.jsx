@@ -1,9 +1,9 @@
-import React from "react";
+import React , { useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleTheme , setIntroDone } from "./store/themeSlice";
-import { setStatus } from "./store/authSlice";
+import { toggleTheme , setIntroDone, setInitialTheme } from "./store/themeSlice";
+import { setInitialAuth, setStatus } from "./store/authSlice";
 import Sidebar from "./components/sidebar";
 import Content from "./components/content";
 import Chat from "./pages/Chat";
@@ -43,6 +43,20 @@ function App() {
   const handleTextComplete = async () => {
     dispatch(setIntroDone());
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      dispatch(setInitialAuth());
+      dispatch(setInitialTheme());
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [dispatch]);
 
   return (
     <div className="select-none">

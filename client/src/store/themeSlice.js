@@ -17,8 +17,13 @@ const themeSlice = createSlice({
         setLoader: (state) => {
             state.isLoading = !(state.isLoading);
         },
+        setInitialTheme: (state) => {
+            state.isDarkMode = false;
+            state.isIntroDone = false;
+            state.isLoading = false;
+        },
     },
 });
 
-export const { toggleTheme , setIntroDone , setLoader } = themeSlice.actions;
+export const { toggleTheme , setIntroDone , setLoader , setInitialTheme } = themeSlice.actions;
 export default themeSlice.reducer;
