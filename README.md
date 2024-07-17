@@ -67,4 +67,16 @@ npm install
   MONGODB_URI=
   ```
 
+#### Run commands 
+* Client side React app
+``` bash
+cd client
+npm run dev
+```
+
+* Server side app
+``` bash
+cd backend
+node server.js
+```
  
