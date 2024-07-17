@@ -45,18 +45,17 @@ function App() {
   };
 
   useEffect(() => {
-    const handleBeforeUnload = () => {
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'hidden') {
       dispatch(setInitialAuth());
       dispatch(setInitialTheme());
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Cleanup function to remove the event listener
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [dispatch]);
+    }
+  };
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  return () => {
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+  };
+}, []);
 
   return (
     <div className="select-none">
